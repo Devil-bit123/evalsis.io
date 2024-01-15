@@ -41,4 +41,12 @@ class User extends \TCG\Voyager\Models\User
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+// En tu modelo User.php
+public function hasRole($rol)
+{
+    return $this->rol == $rol;
+}
+
+
 }
