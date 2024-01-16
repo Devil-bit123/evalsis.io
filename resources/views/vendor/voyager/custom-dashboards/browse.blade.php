@@ -44,12 +44,6 @@
                                 (Docente)
 
 
-                                @if ()
-
-                                @else
-
-                                @endif
-
                             @elseif ($user->role && $user->role->name == 'alumno')
                                 (Alumno)
                             @endif
