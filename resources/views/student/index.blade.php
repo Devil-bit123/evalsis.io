@@ -1,7 +1,7 @@
 @extends('voyager::master')
 
 @section('template_title')
-    Teacher
+    Student
 @endsection
 
 @section('content')
@@ -13,11 +13,11 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Teacher') }}
+                                {{ __('Student') }}
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('teachers.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                <a href="{{ route('students.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                   {{ __('Create New') }}
                                 </a>
                               </div>
@@ -36,24 +36,24 @@
                                     <tr>
                                         <th>No</th>
 
-										<th>Idteacher</th>
+										<th>Idstudent</th>
 										<th>Info</th>
 
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($teachers as $teacher)
+                                    @foreach ($students as $student)
                                         <tr>
                                             <td>{{ ++$i }}</td>
 
-											<td>{{ $teacher->idTeacher }}</td>
-											<td>{{ $teacher->info }}</td>
+											<td>{{ $student->idStudent }}</td>
+											<td>{{ $student->info }}</td>
 
                                             <td>
-                                                <form action="{{ route('teachers.destroy',$teacher->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('teachers.show',$teacher->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('teachers.edit',$teacher->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('students.destroy',$student->id) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('students.show',$student->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('students.edit',$student->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $teachers->links() !!}
+                {!! $students->links() !!}
             </div>
         </div>
     </div>

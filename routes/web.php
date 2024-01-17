@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::resource('companies', App\Http\Controllers\CompanyController::class);
     Route::resource('teachers', App\Http\Controllers\TeacherController::class);
+    Route::resource('students', App\Http\Controllers\StudentController::class);
 });
 
 Auth::routes();

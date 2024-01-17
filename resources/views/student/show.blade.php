@@ -1,7 +1,7 @@
 @extends('voyager::master')
 
 @section('template_title')
-    {{ $teacher->name ?? "{{ __('Show') Teacher" }}
+    {{ $student->name ?? "{{ __('Show') Student" }}
 @endsection
 
 @section('content')
@@ -11,22 +11,22 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">{{ __('Show') }} Teacher</span>
+                            <span class="card-title">{{ __('Show') }} Student</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('teachers.index') }}"> {{ __('Back') }}</a>
+                            <a class="btn btn-primary" href="{{ route('students.index') }}"> {{ __('Back') }}</a>
                         </div>
                     </div>
 
                     <div class="card-body">
 
                         <div class="form-group">
-                            <strong>Idteacher:</strong>
-                            {{ $teacher->idTeacher }}
+                            <strong>Idstudent:</strong>
+                            {{ $student->idStudent }}
                         </div>
                         <div class="form-group">
                             <strong>Info:</strong>
-                            {{ $teacher->info }}
+                            {{ $student->info }}
                         </div>
 
                     </div>

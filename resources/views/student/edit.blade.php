@@ -1,7 +1,7 @@
 @extends('voyager::master')
 
 @section('template_title')
-    {{ __('Update') }} Teacher
+    {{ __('Update') }} Student
 @endsection
 
 @section('content')
@@ -13,14 +13,14 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">{{ __('Update') }} Teacher</span>
+                        <span class="card-title">{{ __('Update') }} Student</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('teachers.update', $teacher->id) }}"  role="form" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('students.update', $student->id) }}"  role="form" enctype="multipart/form-data">
                             {{ method_field('PATCH') }}
                             @csrf
 
-                            @include('teacher.form')
+                            @include('student.form')
 
                         </form>
                     </div>
