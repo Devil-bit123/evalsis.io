@@ -37,8 +37,25 @@
                                     </div>
                                 </div>
                             @else
-                                <p>Si hay info</p>
+
+                            @php
+                            // Consulta la tabla "companies" para obtener la información
+                            //dd($companyInfo);
+                            @endphp
+                            @if ($companyInfo->info)
+                            @php
+                                $infoArray = json_decode($companyInfo->info, true);
+                            @endphp
+                            <h1>{{ $infoArray['nombre'] }}</h1>
+                            <p>RUC: {{ $infoArray['ruc'] }}</p>
+                            <p>Teléfono: {{ $infoArray['telefono'] }}</p>
+                            <p>Dirección: {{ $infoArray['direccion'] }}</p>
+                            <p>Razón Social: {{ $infoArray['razon_social'] }}</p>
+                        @endif
+
+
                             @endif
+                            <!--Hasta aqui el rol Admin -->
                         @elseif ($user->role && $user->role->name == 'docente')
                             @php
                                 // Consulta la tabla "teachers" para obtener la información
