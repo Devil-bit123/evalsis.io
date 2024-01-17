@@ -18,10 +18,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Student extends Model
 {
-    
+
     static $rules = [
 		'idStudent' => 'required',
-		'info' => 'required',
+		'info.ci' => 'required|numeric|digits_between:1,10',
+		'info.fecha_na' => 'required|date_format:Y-m-d',
+		'info.tel' => 'required|numeric|digits_between:1,10',
     ];
 
     protected $perPage = 20;

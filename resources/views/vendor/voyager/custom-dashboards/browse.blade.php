@@ -92,7 +92,7 @@
                         @elseif ($user->role && $user->role->name == 'alumno')
                             @php
                                 // Consulta la tabla "students" para obtener la información
-                                $studentInfo = \App\Models\Student::where('idStudent', '=', $user->id)->first();
+                                $studentInfo = \App\Student::where('idStudent', '=', $user->id)->first();
                                 //dd($teacherInfo);
                             @endphp
 
@@ -108,7 +108,7 @@
                                                     <p class="card-text">Si deseas agregar tu información, selecciona
                                                         <strong>Agregar</strong>.
                                                     </p>
-                                                    <a href="/admin/teachers/create" class="btn btn-primary">Agregar</a>
+                                                    <a href="/admin/students/create" class="btn btn-primary">Agregar</a>
                                                     <a href="#" class="btn btn-secondary">Skip</a>
                                                 </div>
                                             </div>
@@ -116,7 +116,19 @@
                                     </div>
                                 </div>
                             @else
-                                <p>Si hay info</p>
+
+                            @if ($studentInfo->info)
+                                    <h3>Hola, {{ $user->name }}</h3>
+                                    @php
+                                        $infoArray = json_decode($studentInfo->info, true);
+                                    @endphp
+                                    <p>Teléfono {{ $infoArray['tel'] }}</p>
+                                    <p>Cédula: {{ $infoArray['ci'] }}</p>
+                                    <p>Fecha de nacimiento: {{ $infoArray['fecha_na'] }}</p>
+                                @endif
+
+
+
                             @endif
 
                         @endif
