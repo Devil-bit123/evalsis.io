@@ -10,7 +10,7 @@
                     <?php $user = auth()->user(); ?>
 
                     @if ($user)
-                        <p>Bienvenido, {{ $user->name }} </p>
+
                         @if ($user->role && $user->role->name == 'admin')
 
                             @php
@@ -24,7 +24,7 @@
                                         <div class="col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Hey!</h5>
+                                                    <h5 class="card-title">Hey! {{ $user->name }}</h5>
                                                     <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos
                                                         información de tu empresa</h6>
                                                     <p class="card-text">Si deseas agregar información de tu empresa,
@@ -52,7 +52,7 @@
                                         <div class="col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Hey!</h5>
+                                                    <h5 class="card-title">Hey! {{ $user->name }}</h5>
                                                     <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos tu
                                                         información</h6>
                                                     <p class="card-text">Si deseas agregar tu información, selecciona
@@ -68,7 +68,35 @@
                                 <p>Si hay info</p>
                             @endif
                         @elseif ($user->role && $user->role->name == 'alumno')
-                            (Alumno)
+
+                        @php
+                                // Consulta la tabla "students" para obtener la información
+                                $studentInfo = \App\Models\Student::where('idStudent', '=', $user->id)->first();
+                                //dd($teacherInfo);
+                            @endphp
+
+                                @if (!$studentInfo)
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Hey! {{ $user->name }}</h5>
+                                                    <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos tu
+                                                        información</h6>
+                                                    <p class="card-text">Si deseas agregar tu información, selecciona
+                                                        <strong>Agregar</strong>.</p>
+                                                    <a href="/admin/teachers/create" class="btn btn-primary">Agregar</a>
+                                                    <a href="#" class="btn btn-secondary">Skip</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <p>Si hay info</p>
+                            @endif
+
                         @endif
                     @endif
                 </div>
