@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Student;
+use App\Teacher;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends \TCG\Voyager\Models\User
 {
@@ -42,11 +44,31 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
-// En tu modelo User.php
-public function hasRole($rol)
-{
-    return $this->rol == $rol;
-}
+    // En tu modelo User.php
+    public function hasRole($rol)
+    {
+        return $this->rol == $rol;
+    }
 
+
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class, 'idTeacher', 'id');
+    }
+
+    public function hasTeacher()
+    {
+        return !is_null($this->teacher);
+    }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class, 'idStudent', 'id');
+    }
+
+    public function hasStudent()
+    {
+        return !is_null($this->student);
+    }
 
 }

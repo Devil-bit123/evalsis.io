@@ -22,7 +22,7 @@ class Teacher extends Model
     static $rules = [
         'idTeacher' => 'required',
         'info.ci' => 'required|numeric|digits_between:1,13',
-        'info.fecha_na' => 'required|date',
+        'info.fecha_na' => 'required|date_format:Y-m-d',
         'info.tel' => 'required|numeric|digits_between:1,10',
         'info.curso' => 'nullable',
     ];
@@ -38,6 +38,10 @@ class Teacher extends Model
      */
     protected $fillable = ['idTeacher','info'];
 
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'teacher_course', 'teacher_id', 'course_id');
+    }
 
 
 }

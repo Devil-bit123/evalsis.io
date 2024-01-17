@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class StudentController
@@ -43,12 +45,33 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Student::$rules);
+        //dd($request);
+        $userId = Auth::id();
 
-        $student = Student::create($request->all());
+        // Obtén la solicitud actual
+        $requestData = $request->all();
 
-        return redirect()->route('students.index')
-            ->with('success', 'Student created successfully.');
+        // Agrega el índice "idStudent" con el valor de $userId
+        $requestData['idStudent'] = $userId;
+
+        // Actualiza la solicitud con el nuevo dato
+        $request->merge($requestData);
+
+        $validatedData = $request->validate(Student::$rules);
+
+        if (!$validatedData) {
+            return redirect()->route('student.create')
+                ->withErrors(['error' => 'No se pudo guardar el registro. Por favor, revisa los datos e intenta nuevamente.'])
+                ->withInput(); // Mantener los datos ingresados en el formulario.
+        }
+        //dd($request);
+        $data = $request->all();
+        DB::table('students')->insert([
+            'idStudent' => $request->input('idStudent'),
+            'info' => json_encode($data['info']),
+        ]);
+        return redirect()->route('voyager.custom-dashboards.index')
+            ->with('success', 'Company created successfully.');
     }
 
     /**
