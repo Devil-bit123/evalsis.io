@@ -36,5 +36,10 @@ class Student extends Model
     protected $fillable = ['idStudent','info'];
 
 
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'student_course', 'student_id', 'course_id');
+    }
+
 
 }
