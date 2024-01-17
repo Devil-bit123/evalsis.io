@@ -10,24 +10,25 @@
                     <?php $user = auth()->user(); ?>
 
                     @if ($user)
-                        <p>Bienvenido, {{ $user->name }}
+                        <p>Bienvenido, {{ $user->name }} </p>
+                        @if ($user->role && $user->role->name == 'admin')
 
-                            @if ($user->role && $user->role->name == 'admin')
-
-                                @php
+                            @php
                                 // Consulta la tabla "companies" para obtener la información
                                 $companyInfo = \App\Models\Company::select('info')->first();
-                                @endphp
+                            @endphp
 
-                                @if (!$companyInfo)
+                            @if (!$companyInfo)
                                 <div class="container">
                                     <div class="row justify-content-center">
                                         <div class="col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h5 class="card-title">Hey!</h5>
-                                                    <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos información de tu empresa</h6>
-                                                    <p class="card-text">Si deseas agregar información de tu empresa, selecciona <strong>Agregar</strong>.</p>
+                                                    <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos
+                                                        información de tu empresa</h6>
+                                                    <p class="card-text">Si deseas agregar información de tu empresa,
+                                                        selecciona <strong>Agregar</strong>.</p>
                                                     <a href="/admin/companies/create" class="btn btn-primary">Agregar</a>
                                                     <a href="#" class="btn btn-secondary">Skip</a>
                                                 </div>
@@ -35,20 +36,40 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                @else
+                            @else
                                 <p>Si hay info</p>
-                                @endif
-
-                            @elseif ($user->role && $user->role->name == 'docente')
-                                (Docente)
-
-
-                            @elseif ($user->role && $user->role->name == 'alumno')
-                                (Alumno)
                             @endif
+                        @elseif ($user->role && $user->role->name == 'docente')
+                            @php
+                                // Consulta la tabla "teachers" para obtener la información
+                                $teacherInfo = \App\Models\Teacher::where('idTeacher', '=', $user->id)->first();
+                                //dd($teacherInfo);
+                            @endphp
 
-                        </p>
+                            @if (!$teacherInfo)
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Hey!</h5>
+                                                    <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos tu
+                                                        información</h6>
+                                                    <p class="card-text">Si deseas agregar tu información, selecciona
+                                                        <strong>Agregar</strong>.</p>
+                                                    <a href="/admin/teachers/create" class="btn btn-primary">Agregar</a>
+                                                    <a href="#" class="btn btn-secondary">Skip</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <p>Si hay info</p>
+                            @endif
+                        @elseif ($user->role && $user->role->name == 'alumno')
+                            (Alumno)
+                        @endif
                     @endif
                 </div>
             </div>
@@ -58,24 +79,24 @@
 
 @section('javascript')
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Obtén la referencia al enlace "Skip"
-        var skipLink = document.querySelector('.btn-secondary');
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Obtén la referencia al enlace "Skip"
+            var skipLink = document.querySelector('.btn-secondary');
 
-        // Obtén la referencia a la sección que deseas ocultar
-        var cardSection = document.querySelector('.card');
+            // Obtén la referencia a la sección que deseas ocultar
+            var cardSection = document.querySelector('.card');
 
-        // Agrega un evento de clic al enlace "Skip"
-        skipLink.addEventListener('click', function(event) {
-            // Previene el comportamiento predeterminado del enlace
-            event.preventDefault();
+            // Agrega un evento de clic al enlace "Skip"
+            skipLink.addEventListener('click', function(event) {
+                // Previene el comportamiento predeterminado del enlace
+                event.preventDefault();
 
-            // Oculta la sección de la tarjeta
-            cardSection.style.display = 'none';
+                // Oculta la sección de la tarjeta
+                cardSection.style.display = 'none';
+            });
         });
-    });
-</script>
+    </script>
 
 
 @stop
