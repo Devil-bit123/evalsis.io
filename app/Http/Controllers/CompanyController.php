@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 /**
  * Class CompanyController
@@ -43,13 +45,23 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Company::$rules);
+        $validatedData = $request->validate(Company::$rules);
 
-        $company = Company::create($request->all());
 
-        return redirect()->route('companies.index')
+        if(!$validatedData){
+            return redirect()->route('company.create')
+            ->withErrors(['error' => 'No se pudo guardar el registro. Por favor, revisa los datos e intenta nuevamente.'])
+            ->withInput(); // Mantener los datos ingresados en el formulario.
+        }
+        //dd($request);
+        $data = $request->all();
+        DB::table('companies')->insert([
+            'info' => json_encode($data['info']),
+        ]);
+        return redirect()->route('voyager.custom-dashboards.index')
             ->with('success', 'Company created successfully.');
     }
+
 
     /**
      * Display the specified resource.

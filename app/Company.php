@@ -17,10 +17,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Company extends Model
 {
-    
+
     static $rules = [
-		'info' => 'required',
+        'info.nombre' => 'required|string',
+        'info.razon_social' => 'required|string',
+        'info.direccion' => 'required|string',
+        'info.ruc' => 'required|numeric|max:13',
+        'info.telefono' => 'required|numeric|max:10',
     ];
+
 
     protected $perPage = 20;
 
