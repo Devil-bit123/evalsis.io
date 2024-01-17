@@ -55,7 +55,7 @@
                         $user = auth()->user();
                     @endphp
 
-                    @if ($user->hasStudent())
+                    @if ($user->hasTeacher())
                         <p>Hola, {{ $user->name }}</p>
 
                         {{-- Decodificar el campo info --}}
