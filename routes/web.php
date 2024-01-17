@@ -22,6 +22,7 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
     Route::resource('companies', App\Http\Controllers\CompanyController::class);
+    Route::resource('teachers', App\Http\Controllers\TeacherController::class);
 });
 
 Auth::routes();
