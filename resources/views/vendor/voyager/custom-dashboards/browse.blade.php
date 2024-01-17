@@ -15,7 +15,7 @@
 
                             @php
                                 // Consulta la tabla "companies" para obtener la información
-                                $companyInfo = \App\Models\Company::select('info')->first();
+                                $companyInfo = \App\Company::select('info')->first();
                             @endphp
 
                             @if (!$companyInfo)
@@ -37,29 +37,22 @@
                                     </div>
                                 </div>
                             @else
-
-                            @php
-                            // Consulta la tabla "companies" para obtener la información
-                            //dd($companyInfo);
-                            @endphp
-                            @if ($companyInfo->info)
-                            @php
-                                $infoArray = json_decode($companyInfo->info, true);
-                            @endphp
-                            <h1>{{ $infoArray['nombre'] }}</h1>
-                            <p>RUC: {{ $infoArray['ruc'] }}</p>
-                            <p>Teléfono: {{ $infoArray['telefono'] }}</p>
-                            <p>Dirección: {{ $infoArray['direccion'] }}</p>
-                            <p>Razón Social: {{ $infoArray['razon_social'] }}</p>
-                        @endif
-
-
+                                @if ($companyInfo->info)
+                                    @php
+                                        $infoArray = json_decode($companyInfo->info, true);
+                                    @endphp
+                                    <h1>{{ $infoArray['nombre'] }}</h1>
+                                    <p>RUC: {{ $infoArray['ruc'] }}</p>
+                                    <p>Teléfono: {{ $infoArray['telefono'] }}</p>
+                                    <p>Dirección: {{ $infoArray['direccion'] }}</p>
+                                    <p>Razón Social: {{ $infoArray['razon_social'] }}</p>
+                                @endif
                             @endif
                             <!--Hasta aqui el rol Admin -->
                         @elseif ($user->role && $user->role->name == 'docente')
                             @php
                                 // Consulta la tabla "teachers" para obtener la información
-                                $teacherInfo = \App\Models\Teacher::where('idTeacher', '=', $user->id)->first();
+                                $teacherInfo = App\Teacher::where('idTeacher', '=', $user->id)->first();
                                 //dd($teacherInfo);
                             @endphp
 
@@ -73,7 +66,8 @@
                                                     <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos tu
                                                         información</h6>
                                                     <p class="card-text">Si deseas agregar tu información, selecciona
-                                                        <strong>Agregar</strong>.</p>
+                                                        <strong>Agregar</strong>.
+                                                    </p>
                                                     <a href="/admin/teachers/create" class="btn btn-primary">Agregar</a>
                                                     <a href="#" class="btn btn-secondary">Skip</a>
                                                 </div>
@@ -82,17 +76,27 @@
                                     </div>
                                 </div>
                             @else
-                                <p>Si hay info</p>
-                            @endif
-                        @elseif ($user->role && $user->role->name == 'alumno')
+                                @if ($teacherInfo->info)
+                                    <h3>Hola, {{ $user->name }}</h3>
+                                    @php
+                                        $infoArray = json_decode($teacherInfo->info, true);
+                                    @endphp
+                                    <p>Teléfono {{ $infoArray['tel'] }}</p>
+                                    <p>Cédula: {{ $infoArray['ci'] }}</p>
+                                    <p>Fecha de nacimiento: {{ $infoArray['fecha_na'] }}</p>
+                                @endif
 
-                        @php
+                            @endif
+
+                            <!--Hasta aqui el rol docente-->
+                        @elseif ($user->role && $user->role->name == 'alumno')
+                            @php
                                 // Consulta la tabla "students" para obtener la información
                                 $studentInfo = \App\Models\Student::where('idStudent', '=', $user->id)->first();
                                 //dd($teacherInfo);
                             @endphp
 
-                                @if (!$studentInfo)
+                            @if (!$studentInfo)
                                 <div class="container">
                                     <div class="row justify-content-center">
                                         <div class="col-md-6">
@@ -102,7 +106,8 @@
                                                     <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos tu
                                                         información</h6>
                                                     <p class="card-text">Si deseas agregar tu información, selecciona
-                                                        <strong>Agregar</strong>.</p>
+                                                        <strong>Agregar</strong>.
+                                                    </p>
                                                     <a href="/admin/teachers/create" class="btn btn-primary">Agregar</a>
                                                     <a href="#" class="btn btn-secondary">Skip</a>
                                                 </div>
@@ -116,6 +121,7 @@
 
                         @endif
                     @endif
+                    <!--Hasta aqui el rol alumno-->
                 </div>
             </div>
         </div>

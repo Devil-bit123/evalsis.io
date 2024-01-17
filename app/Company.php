@@ -22,8 +22,8 @@ class Company extends Model
         'info.nombre' => 'required|string',
         'info.razon_social' => 'required|string',
         'info.direccion' => 'required|string',
-        'info.ruc' => 'required|numeric|max:13',
-        'info.telefono' => 'required|numeric|max:10',
+        'info.ruc' => 'required|numeric|digits_between:1,13',
+        'info.telefono' => 'required|numeric|digits_between:1,10',
     ];
 
 

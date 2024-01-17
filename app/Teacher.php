@@ -18,11 +18,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Teacher extends Model
 {
-    
+
     static $rules = [
-		'idTeacher' => 'required',
-		'info' => 'required',
+        'idTeacher' => 'required',
+        'info.ci' => 'required|numeric|digits_between:1,13',
+        'info.fecha_na' => 'required|date',
+        'info.tel' => 'required|numeric|digits_between:1,10',
+        'info.curso' => 'nullable',
     ];
+
+
 
     protected $perPage = 20;
 

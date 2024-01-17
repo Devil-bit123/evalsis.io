@@ -47,7 +47,6 @@ class CompanyController extends Controller
     {
         $validatedData = $request->validate(Company::$rules);
 
-
         if(!$validatedData){
             return redirect()->route('company.create')
             ->withErrors(['error' => 'No se pudo guardar el registro. Por favor, revisa los datos e intenta nuevamente.'])
