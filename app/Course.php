@@ -33,6 +33,12 @@ class Course extends Model
      */
     protected $fillable = ['name','description'];
 
+// En el modelo Course
+public function teachers()
+{
+    return $this->belongsToMany(Teacher::class, 'teacher_courses', 'course_id', 'teacher_id');
+}
+
 
 
 }

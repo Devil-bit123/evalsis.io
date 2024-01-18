@@ -91,7 +91,7 @@
                 @endif
 
                 @if (env('TURN_ON_INSCRIPTIONS')==true)
-                <a href="" class="btn btn-warning" title="Matricula">
+                <a href="{{ route('inscription.create') }}" class="btn btn-warning" title="Matricula">
                     <i class="icono-del-nuevo-boton"></i> <span class="hidden-xs hidden-sm">Inscribeme</span>
                 </a>
                 @endif
