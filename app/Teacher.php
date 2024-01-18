@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
 class Teacher extends Model
 {
 
+    protected $primaryKey = 'idTeacher';
+
     static $rules = [
         'idTeacher' => 'required',
         'info.ci' => 'required|numeric|digits_between:1,13',
@@ -38,10 +40,12 @@ class Teacher extends Model
      */
     protected $fillable = ['idTeacher','info'];
 
-    public function courses()
-    {
-        return $this->belongsToMany(Course::class, 'teacher_course', 'teacher_id', 'course_id');
-    }
+// En el modelo Teacher
+public function courses()
+{
+    return $this->belongsToMany(Course::class, 'teacher_courses', 'teacher_id', 'course_id');
+}
+
 
 
 }
