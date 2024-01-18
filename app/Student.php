@@ -19,6 +19,9 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
 
+
+    protected $primaryKey = 'idStudent';
+
     static $rules = [
 		'idStudent' => 'required',
 		'info.ci' => 'required|numeric|digits_between:1,10',

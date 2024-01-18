@@ -64,7 +64,7 @@
 
                 @if (env('TURN_ON_MATRICULATION')==true)
                     <p>Te gustaria matricularte en un curso?</p>
-                    <a href="" class="btn btn-warning" title="Matricula">
+                    <a href="{{ route('matriculation.create') }}" class="btn btn-warning" title="Matricula">
                         <i class="icono-del-nuevo-boton"></i> <span class="hidden-xs hidden-sm">Matricula</span>
                     </a>
                 @endif
