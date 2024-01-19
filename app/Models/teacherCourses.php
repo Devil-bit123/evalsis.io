@@ -11,11 +11,13 @@ class teacherCourses extends Model
 {
     use HasFactory;
 
-    static $rules = [
-        'teacher_id' => 'required',
-        'course_id' => 'required',
-
-    ];
+    public static function getRules($courseId = null)
+    {
+        return [
+            'teacher_id' => 'required|unique:teacher_courses,teacher_id,NULL,id,course_id,' . $courseId,
+            'course_id' => 'required|exists:courses,id',
+        ];
+    }
 
     protected $fillable = ['teacher_id','course_id'];
 

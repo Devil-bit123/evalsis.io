@@ -7,7 +7,7 @@
 
     @auth
 
-        @if ($user->role && $user->role->name == 'admin' || $user->role && $user->role->name == 'docente')
+        @if (($user->role && $user->role->name == 'admin') || ($user->role && $user->role->name == 'docente'))
             <div class="container text-start">
                 <div class="row">
                     <div class="col-md-6">
@@ -53,9 +53,21 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4>Planificación del Curso</h4>
-                                <a href="{{ route('assigned.add', ['id' => $course->id]) }}" class="btn btn-info">Agregar
-                                    planificación</a>
-                                <br>
+
+                                @if ($user->role && $user->role->name == 'docente' && count($studentNames) > 0)
+                                    <a href="{{ route('assigned.add', ['id' => $course->id]) }}" class="btn btn-info">Agregar
+                                        planificación</a>
+                                    <br>
+
+                                @else ()
+                                        <p>Aun no hay estudiantes en tu curso, debe haber minimo un estudiante para agregar la planificación</p>
+                                @endif
+
+                                @if ($user->role && $user->role->name == 'admin')
+                                    <a href="{{ route('assigned.add', ['id' => $course->id]) }}" class="btn btn-info">Agregar
+                                        planificación</a>
+                                    <br>
+                                @endif
 
                                 @if ($course->planifications)
                                     @foreach ($course->planifications as $planification)
@@ -78,61 +90,55 @@
             </div>
             <!--FIN DEL ROL ADMIN-->
         @elseif ($user->role && $user->role->name == 'alumno')
+            <div class="container text-start">
+                <div class="row">
+                    <div class="col-md-6">
 
+                        <!-- Información del Curso -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>{{ $course->name }}</h3>
+                                <p>{{ $course->description }}</p>
 
-        <div class="container text-start">
-            <div class="row">
-                <div class="col-md-6">
-
-                    <!-- Información del Curso -->
-                    <div class="card">
-                        <div class="card-body">
-                            <h3>{{ $course->name }}</h3>
-                            <p>{{ $course->description }}</p>
-
-                            <p>Esta clase está dictada por:</p>
-                            <ul>
-                                @forelse ($teacherNames as $teacherName)
-                                    <li><strong>{{ $teacherName }}</strong></li>
-                                @empty
-                                    <li><strong>No hay profesores asignados a esta clase.</strong></li>
-                                @endforelse
-                            </ul>
+                                <p>Esta clase está dictada por:</p>
+                                <ul>
+                                    @forelse ($teacherNames as $teacherName)
+                                        <li><strong>{{ $teacherName }}</strong></li>
+                                    @empty
+                                        <li><strong>No hay profesores asignados a esta clase.</strong></li>
+                                    @endforelse
+                                </ul>
+                            </div>
                         </div>
+
                     </div>
 
-                </div>
+                    <!-- Sección de Planificación (Agregada a la derecha) -->
+                    <div class="col-md-6">
 
-                <!-- Sección de Planificación (Agregada a la derecha) -->
-                <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Planificación del Curso</h4>
 
-                    <div class="card">
-                        <div class="card-body">
-                            <h4>Planificación del Curso</h4>
-
-                            @if ($course->planifications)
-                                @foreach ($course->planifications as $planification)
-                                    <div style="display: inline-block; vertical-align: middle; margin-bottom: 10px;">
-                                        <p style="display: inline-block; margin-right: 10px; vertical-align: middle;">
-                                            {{ $planification->name }}</p>
-                                        <a href="#" class="btn btn-primary btn-detalles"
-                                            data-name="{{ $planification->name }}" data-file="{{ $planification->file }}"
-                                            style="display: inline-block; vertical-align: middle;">Detalles</a>
-                                    </div>
-                                @endforeach
-                            @else
-                                <h3>Aun no se ha agregado planificación a este curso</h3>
-                            @endif
+                                @if ($course->planifications)
+                                    @foreach ($course->planifications as $planification)
+                                        <div style="display: inline-block; vertical-align: middle; margin-bottom: 10px;">
+                                            <p style="display: inline-block; margin-right: 10px; vertical-align: middle;">
+                                                {{ $planification->name }}</p>
+                                            <a href="#" class="btn btn-primary btn-detalles"
+                                                data-name="{{ $planification->name }}" data-file="{{ $planification->file }}"
+                                                style="display: inline-block; vertical-align: middle;">Detalles</a>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <h3>Aun no se ha agregado planificación a este curso</h3>
+                                @endif
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
-        </div>
-
-
-
-
         @endif
 
         <!-- Agrega este modal al final de tu HTML, después del cierre del tag </body> -->

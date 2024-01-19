@@ -36,6 +36,10 @@ Route::group(['prefix' => 'admin'], function () {
     //Matriculaciones de alumnos a cursos
     Route::get('/matriculation', [App\Http\Controllers\matriculationController::class, 'create'])->name('matriculation.create');
     Route::post('/matriculation/store', [matriculationController::class, 'store'])->name('matriculation.store');
+    Route::get('/matriculation/delete/', [App\Http\Controllers\matriculationController::class, 'view'])->name('matriculation.view');
+    Route::get('matriculation/take-teacher/{course_id}', [App\Http\Controllers\matriculationController::class, 'obtenerDocentes'])->name('take.teacher');
+    Route::post('/matriculation/destroy/{course_id}/{id}', [App\Http\Controllers\matriculationController::class, 'delete'])->name('matriculation.delete');
+
 
     //Planificacion
     Route::get('/assigneds/{id}', [App\Http\Controllers\assignedCoursesController::class, 'show'])->name('assigned.show');

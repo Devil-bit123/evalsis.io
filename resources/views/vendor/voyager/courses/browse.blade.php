@@ -62,15 +62,12 @@
                     @endif
                 @endif
 
-                @if (env('TURN_ON_MATRICULATION')==true)
+                @if (env('TURN_ON_MATRICULATION') == true)
                     <p>Te gustaria matricularte en un curso?</p>
                     <a href="{{ route('matriculation.create') }}" class="btn btn-warning" title="Matricula">
                         <i class="icono-del-nuevo-boton"></i> <span class="hidden-xs hidden-sm">Matricula</span>
                     </a>
                 @endif
-
-
-
             @elseif ($user->role && $user->role->name == 'docente')
                 <p>Te gustaria dar un curso?</p>
 
@@ -90,12 +87,20 @@
                     @endif
                 @endif
 
-                @if (env('TURN_ON_INSCRIPTIONS')==true)
-                <a href="{{ route('inscription.create') }}" class="btn btn-warning" title="Matricula">
-                    <i class="icono-del-nuevo-boton"></i> <span class="hidden-xs hidden-sm">Inscribeme</span>
-                </a>
+                @if (env('TURN_ON_INSCRIPTIONS') == true)
+                    <a href="{{ route('inscription.create') }}" class="btn btn-warning" title="Matricula">
+                        <i class="icono-del-nuevo-boton"></i> <span class="hidden-xs hidden-sm">Inscribeme</span>
+                    </a>
                 @endif
+            @elseif ($user->role && $user->role->name == 'admin')
+            <p>Te gustaria dar de baja a un docente</p>
+            <a href="{{ route('matriculation.view') }}" class="btn btn-warning" title="Baja">
+                <i class="icono-del-nuevo-boton"></i> <span class="hidden-xs hidden-sm">Dar de baja</span>
+            </a>
             @endif
+
+
+
         @endauth
 
         @include('voyager::multilingual.language-selector')
