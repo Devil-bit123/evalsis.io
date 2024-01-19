@@ -38,7 +38,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/matriculation/store', [matriculationController::class, 'store'])->name('matriculation.store');
 
     //Planificacion
-
+    Route::get('/assigneds/{id}', [App\Http\Controllers\assignedCoursesController::class, 'show'])->name('assigned.show');
+    Route::any('/assigneds/planification/{id}', [App\Http\Controllers\assignedCoursesController::class, 'add'])->name('assigned.add');
+    Route::post('/assigneds/planification-save/{id}', [App\Http\Controllers\assignedCoursesController::class, 'store'])->name('assigned.store');
 
 });
 

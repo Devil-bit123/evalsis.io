@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\planification;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -39,6 +40,14 @@ public function teachers()
     return $this->belongsToMany(Teacher::class, 'teacher_courses', 'course_id', 'teacher_id');
 }
 
+public function students()
+{
+    return $this->belongsToMany(Student::class, 'student_course', 'course_id', 'student_id');
+}
 
+public function planifications()
+{
+    return $this->hasMany(planification::class, 'course_id');
+}
 
 }
