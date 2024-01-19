@@ -9,6 +9,18 @@
         <h5 class="card-title">Por favor selecciona el curso al que deseas inscribirte como maestro</h5>
         <form action="{{ route('inscription.store') }}" method="POST">
             @csrf
+
+            <!-- Display validation errors -->
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="form-group">
                 <label for="curso">Cursos:</label>
                 <select name="curso" id="curso" class="form-control">
@@ -22,5 +34,4 @@
         </form>
     </div>
 </div>
-
 @stop

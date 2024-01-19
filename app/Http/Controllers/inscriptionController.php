@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use Illuminate\Support\Facades\Validator;
 use App\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,9 +28,16 @@ public function store(Request $request)
     $request->merge(['course_id' => $request->input('curso')]);
 
     // Validar los datos
-    $validatedData = $request->validate(teacherCourses::$rules);
+    $validator = Validator::make($request->all(), teacherCourses::getRules($request->input('curso')));
 
-    // Crear una nueva instancia de teacherCourses con datos validados
+    // If validation fails, redirect with error message
+    if ($validator->fails()) {
+        return redirect()->route('inscription.create')
+            ->withErrors(['error' => 'El profesor ya está matriculado en este curso o el curso no existe. Por favor, selecciona otro curso e intenta nuevamente.'])
+            ->withInput(); // Mantener los datos ingresados en el formulario.
+    }
+
+    // Create a new instance of teacherCourses with validated data
     $inscription = new teacherCourses([
         'teacher_id' => $request->input('teacher_id'),
         'course_id' => $request->input('course_id'),
@@ -37,10 +45,10 @@ public function store(Request $request)
         'updated_at' => now(),
     ]);
 
-    // Guardar el objeto en la base de datos
+    // Save the object to the database
     $inscription->save();
 
-    // Redireccionar con mensaje de éxito
+    // Redirect with success message
     return redirect()->route('voyager.courses.index')->with('success', 'Inscripción creada exitosamente');
 }
 
