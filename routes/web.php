@@ -37,6 +37,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/matriculation', [App\Http\Controllers\matriculationController::class, 'create'])->name('matriculation.create');
     Route::post('/matriculation/store', [matriculationController::class, 'store'])->name('matriculation.store');
 
+    //Planificacion
+
 
 });
 

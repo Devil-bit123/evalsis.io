@@ -79,7 +79,7 @@
                 @endphp
                 @if ($user->hasTeacher())
                     @if ($user->teacher->courses->isEmpty())
-                        <p>El usuario no tiene cursos inscritos.</p>
+                        <p>Oh no, al aprecer no tienes cursos inscritos.</p>
                     @else
                         <p>Estás dictando los siguientes cursos</p>
                         <ul>
