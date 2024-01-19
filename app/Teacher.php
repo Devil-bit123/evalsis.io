@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -39,6 +40,12 @@ class Teacher extends Model
      * @var array
      */
     protected $fillable = ['idTeacher','info'];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'idTeacher');
+    }
 
 // En el modelo Teacher
 public function courses()

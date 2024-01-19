@@ -25,7 +25,7 @@
                                     <div class="card-body" style="height: 200px; overflow: hidden;">
                                         <h5 class="card-title">{{ $course->name }}</h5>
                                         <p class="card-text">{{ $course->description }}</p>
-                                        <a href="#" class="btn btn-primary">Ver Aula</a>
+                                        <a href="{{ route('assigned.show', ['id' => $course->id]) }}" class="btn btn-primary">Ver Aula</a>
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                                         <div class="card-body" style="height: 200px; overflow: hidden;">
                                             <h5 class="card-title">{{ $course->name }}</h5>
                                             <p class="card-text">{{ $course->description }}</p>
-                                            <a href="#" class="btn btn-primary">Ver Aula</a>
+                                            <a href="{{ route('assigned.show', ['id' => $course->id]) }}" class="btn btn-primary">Ver Aula</a>
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                         <div class="card-body" style="height: 200px; overflow: hidden;">
                                             <h5 class="card-title">{{ $course->name }}</h5>
                                             <p class="card-text">{{ $course->description }}</p>
-                                            <a href="#" class="btn btn-primary">Ver Aula</a>
+                                            <a href="{{ route('assigned.show', ['id' => $course->id]) }}" class="btn btn-primary">Ver Aula</a>
                                         </div>
                                     </div>
                                 </div>
