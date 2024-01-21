@@ -50,68 +50,65 @@
                             @endif
                             <!--Hasta aqui el rol Admin -->
                         @elseif ($user->role && $user->role->name == 'docente')
+                            @php
+                                $user = auth()->user();
+                            @endphp
 
-                       @php
-                        $user = auth()->user();
-                    @endphp
+                            @if ($user->hasTeacher())
+                                <p>Hola, {{ $user->name }}</p>
 
-                    @if ($user->hasTeacher())
-                        <p>Hola, {{ $user->name }}</p>
+                                {{-- Decodificar el campo info --}}
+                                @php
+                                    $teacherInfo = json_decode($user->teacher->info, true);
+                                @endphp
 
-                        {{-- Decodificar el campo info --}}
-                        @php
-                            $teacherInfo = json_decode($user->teacher->info, true);
-                        @endphp
+                                {{-- Verificar si la decodificación fue exitosa --}}
+                                @if ($teacherInfo)
+                                    {{-- Mostrar la información del estudiante --}}
+                                    <ul>
+                                        @foreach ($teacherInfo as $key => $value)
+                                            {{-- Mostrar información específica para 'ci', 'tel' y 'fecha_na' --}}
+                                            @if ($key == 'ci')
+                                                <li>Cedula: {{ $value }}</li>
+                                            @elseif ($key == 'tel')
+                                                <li>Telefono: {{ $value }}</li>
+                                            @elseif ($key == 'fecha_na')
+                                                <li>Fecha de Nacimiento: {{ $value }}</li>
+                                            @else
+                                                <li>{{ $key }}: {{ $value }}</li>
+                                            @endif
+                                        @endforeach
 
-                        {{-- Verificar si la decodificación fue exitosa --}}
-                        @if ($teacherInfo)
-                            {{-- Mostrar la información del estudiante --}}
-                            <ul>
-                                @foreach ($teacherInfo as $key => $value)
-                                    {{-- Mostrar información específica para 'ci', 'tel' y 'fecha_na' --}}
-                                    @if ($key == 'ci')
-                                        <li>Cedula: {{ $value }}</li>
-                                    @elseif ($key == 'tel')
-                                        <li>Telefono: {{ $value }}</li>
-                                    @elseif ($key == 'fecha_na')
-                                        <li>Fecha de Nacimiento: {{ $value }}</li>
-                                    @else
-                                        <li>{{ $key }}: {{ $value }}</li>
-                                    @endif
-                                @endforeach
-
-                            </ul>
-                        @else
-                            <p>Error al decodificar la información del docente</p>
-                        @endif
-                    @else
-
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Hey! {{ $user->name }}</h5>
-                                        <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos
-                                            información tu información</h6>
-                                        <p class="card-text">Si deseas agregar tu información,
-                                            selecciona <strong>Agregar</strong>.</p>
-                                        <a href="/admin/teachers/create" class="btn btn-primary">Agregar</a>
-                                        <a href="#" class="btn btn-secondary">Skip</a>
+                                    </ul>
+                                @else
+                                    <p>Error al decodificar la información del docente</p>
+                                @endif
+                            @else
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Hey! {{ $user->name }}</h5>
+                                                    <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos
+                                                        información tu información</h6>
+                                                    <p class="card-text">Si deseas agregar tu información,
+                                                        selecciona <strong>Agregar</strong>.</p>
+                                                    <a href="/admin/teachers/create" class="btn btn-primary">Agregar</a>
+                                                    <a href="#" class="btn btn-secondary">Skip</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
 
 
 
-                    @endif
+                            @endif
 
                             <!--Hasta aqui el rol docente-->
                         @elseif ($user->role && $user->role->name == 'alumno')
-
-                           @php
+                            @php
                                 $user = auth()->user();
                             @endphp
 
@@ -145,33 +142,49 @@
                                     <p>Error al decodificar la información del estudiante</p>
                                 @endif
                             @else
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Hey! {{ $user->name }}</h5>
+                                                    <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos
+                                                        información tu información</h6>
+                                                    <p class="card-text">Si deseas agregar tu información,
+                                                        selecciona <strong>Agregar</strong>.</p>
+                                                    <a href="/admin/students/create" class="btn btn-primary">Agregar</a>
+                                                    <a href="#" class="btn btn-secondary">Skip</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
+                            @endif
+                            <!--Hasta aqui el rol alumno-->
+                        @else
+                        <!--Validacion para usuarios sin rol-->
                             <div class="container">
                                 <div class="row justify-content-center">
                                     <div class="col-md-6">
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-title">Hey! {{ $user->name }}</h5>
-                                                <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos
-                                                    información tu información</h6>
-                                                <p class="card-text">Si deseas agregar tu información,
-                                                    selecciona <strong>Agregar</strong>.</p>
-                                                <a href="/admin/students/create" class="btn btn-primary">Agregar</a>
+                                                <h6 class="card-subtitle mb-2 text-body-secondary">No tienes un rol asignado
+                                                </h6>
+                                                <p class="card-text"> Contacta con tu administrador de sistemas</p>
+                                                <a href="#" class="btn btn-primary">Agregar</a>
                                                 <a href="#" class="btn btn-secondary">Skip</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-                            @endif
-
                         @endif
-                         <!--Hasta aqui el rol alumno-->
+
                     @endif
-                     <!--Fin validador usuario-->
+                    <!--Fin validador usuario-->
                 </div>
             </div>
         </div>
