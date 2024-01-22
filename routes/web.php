@@ -46,6 +46,17 @@ Route::group(['prefix' => 'admin'], function () {
     Route::any('/assigneds/planification/{id}', [App\Http\Controllers\assignedCoursesController::class, 'add'])->name('assigned.add');
     Route::post('/assigneds/planification-save/{id}', [App\Http\Controllers\assignedCoursesController::class, 'store'])->name('assigned.store');
 
+    //Evaluation
+    Route::get('/evaluations/{id}', [App\Http\Controllers\evaluationController::class, 'create'])->name('evaluation.create');
+    Route::get('/evaluations/show/{id}', [App\Http\Controllers\evaluationController::class, 'show'])->name('evaluation.show');
+    Route::any('/evaluations/store/{id}', [App\Http\Controllers\evaluationController::class, 'store'])->name('evaluation.store');
+    Route::any('/evaluations/details/{id}', [App\Http\Controllers\evaluationController::class, 'details'])->name('evaluation.details');
+    Route::any('/evaluations/update/{id}', [App\Http\Controllers\evaluationController::class, 'update'])->name('evaluation.update');
+    Route::any('/evaluations/destroy/{id}', [App\Http\Controllers\evaluationController::class, 'destroy'])->name('evaluation.destroy');
+    Route::any('/evaluations/test/{id}', [App\Http\Controllers\evaluationController::class, 'test'])->name('evaluation.test');
+    Route::any('/evaluations/save/', [App\Http\Controllers\evaluationController::class, 'save'])->name('evaluation.save');
+
+
 });
 
 Auth::routes();

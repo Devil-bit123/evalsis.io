@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\test;
 use App\Models\planification;
 use Illuminate\Database\Eloquent\Model;
 
@@ -48,6 +49,11 @@ public function students()
 public function planifications()
 {
     return $this->hasMany(planification::class, 'course_id');
+}
+
+public function tests()
+{
+    return $this->hasMany(test::class, 'id_course');
 }
 
 }
