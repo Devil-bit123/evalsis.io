@@ -159,8 +159,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             @endif
                             <!--Hasta aqui el rol alumno-->
                         @else
@@ -174,7 +172,7 @@
                                                 <h6 class="card-subtitle mb-2 text-body-secondary">No tienes un rol asignado
                                                 </h6>
                                                 <p class="card-text"> Contacta con tu administrador de sistemas</p>
-                                                <a href="#" class="btn btn-primary">Agregar</a>
+                                                <a href="#" class="btn btn-primary">Contact</a>
                                                 <a href="#" class="btn btn-secondary">Skip</a>
                                             </div>
                                         </div>
