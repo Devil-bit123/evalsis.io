@@ -55,6 +55,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::any('/evaluations/destroy/{id}', [App\Http\Controllers\evaluationController::class, 'destroy'])->name('evaluation.destroy');
     Route::any('/evaluations/test/{id}', [App\Http\Controllers\evaluationController::class, 'test'])->name('evaluation.test');
     Route::any('/evaluations/save/', [App\Http\Controllers\evaluationController::class, 'save'])->name('evaluation.save');
+    Route::any('/evaluations/scores/{id}', [App\Http\Controllers\evaluationController::class, 'scores'])->name('evaluation.scores');
+    Route::any('/evaluations/score/{id}', [App\Http\Controllers\evaluationController::class, 'score'])->name('evaluation.score');
+    Route::any('/evaluations/qualify/{id}', [App\Http\Controllers\evaluationController::class, 'qualify'])->name('evaluation.qualify');
+    Route::any('/evaluations/qualified/{id}', [App\Http\Controllers\evaluationController::class, 'qualified'])->name('evaluation.qualified');
 
 
 });

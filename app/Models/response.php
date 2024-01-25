@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Student;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class response extends Model
 {
@@ -18,12 +19,19 @@ class response extends Model
         'json' => 'required',
         'score' => 'nullable',
         'status' => 'required',
+        'qualify_status' => 'required',
     ];
 
-    protected $fillable = ['id_course','id_student','id_test','json','score','status'];
+    protected $fillable = ['id_course','id_student','id_test','json','score','status','qualify_status'];
 
     public function test()
     {
         return $this->belongsTo(Test::class, 'id_test');
     }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'id_student');
+    }
+
 }

@@ -11,6 +11,7 @@
                      <a href="{{ route('evaluation.destroy', ['id' => $test->id]) }}"
                         class="btn btn-danger">Eliminar</a>
                     <a href="{{ route('evaluation.details', ['id' => $test->id]) }}" class="btn btn-warning">Editar</a>
+                    <a href="{{ route('evaluation.scores', ['id' => $test->id]) }}" class="btn btn-warning">Calificar</a>
                 </div>
             </div>
         @endforeach

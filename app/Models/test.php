@@ -31,9 +31,9 @@ class test extends Model
         return $this->belongsTo(Course::class, 'id_course');
     }
 
-    public function response()
+    public function responses()
     {
-        return $this->hasOne(Response::class, 'id_test');
+        return $this->hasMany(Response::class, 'id_test');
     }
 
 }

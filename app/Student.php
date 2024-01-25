@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\User;
+use App\Models\response;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -48,6 +49,11 @@ class Student extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'idStudent');
+    }
+
+    public function response()
+    {
+        return $this->hasOne(response::class, 'id_student');
     }
 
 }

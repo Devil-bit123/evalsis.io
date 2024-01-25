@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Course;
-use App\Models\response;
 use App\Models\test;
+use App\Models\response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class evaluationController extends Controller
 {
@@ -136,5 +137,60 @@ class evaluationController extends Controller
         $response->save();
 
     }
+
+    public function scores($id){
+        $test = test::find($id);
+        $responses = $test->responses;
+        //foreach ($responses as $response) {
+        //$student = $response->student->user->name;
+        //dd($student);
+        //}
+        return view('evaluation.scores', compact('responses','test'));
+    }
+
+    public function score($id)
+    {
+        $response = Response::find($id);
+
+        // Decodificar el JSON en el campo 'json' de la respuesta
+        $questionsAndAnswers = json_decode($response->json, true);
+
+        return View::make('evaluation.score', compact('response', 'questionsAndAnswers'));
+    }
+
+      public function qualify(Request $request, $id)
+    {
+
+
+        // Obtener el JSON que contiene la información de las preguntas, respuestas y correcciones
+        $jsonEvaluationData = $request->input('questionsData');
+
+        // Decodificar el JSON a un array asociativo
+        $evaluationData = json_decode($jsonEvaluationData, true);
+        $response = response::find($id);
+        $response->update([
+            'json'=>$evaluationData,
+            'score'=>$request->input('score'),
+            'qualify_status'=>'qualified'
+        ]);
+
+        // Puedes retornar una respuesta, por ejemplo, un mensaje JSON
+        return response()->json(['message' => 'Calificación exitosa']);
+    }
+
+
+
+    public function qualified($id){
+
+        $user = Auth::user();
+        $response = response::where('id_test', '=', $id)
+            ->where('id_student', '=', $user->student->idStudent)
+            ->first();
+        $questionsAndAnswers = json_decode($response->json, true);
+
+        //return view('evaluation.qualified');
+        return View::make('evaluation.qualified', compact('response', 'questionsAndAnswers'));
+    }
+
 
 }
