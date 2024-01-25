@@ -17,6 +17,12 @@
                                 <p class="card-text">{{ $qa['pregunta'] }}</p>
                                 <h6 class="card-subtitle mb-2 text-muted">Respuesta:</h6>
                                 <p class="card-text">{{ $qa['respuesta'] }}</p>
+
+                                <!-- Agregar un textarea para la corrección -->
+                                <div class="mb-3">
+                                    <label for="correccionTextarea{{ $loop->index }}" class="form-label">Corrección:</label>
+                                    <textarea class="form-control" id="correccionTextarea{{ $loop->index }}" rows="3"></textarea>
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -32,6 +38,7 @@
             </div>
         </div>
 
+
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
         <script>
@@ -46,17 +53,34 @@
                     return;
                 }
 
+                // Crear un array para almacenar la información de cada pregunta
+                var questionsData = [];
+
+                // Iterar sobre todas las preguntas y obtener la corrección de cada una
+                @foreach ($questionsAndAnswers as $qa)
+                    var correccionTextarea = document.getElementById('correccionTextarea{{ $loop->index }}').value;
+                    var questionData = {
+                        pregunta: "{{ $qa['pregunta'] }}",
+                        respuesta: "{{ $qa['respuesta'] }}",
+                        correccion: correccionTextarea
+                    };
+                    questionsData.push(questionData);
+                @endforeach
+
+                // Enviar la solicitud Ajax con el JSON que contiene la información de todas las preguntas
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('evaluation.qualify', ['id' => $response->id]) }}",
                     data: {
                         score: scoreInput,
+                        questionsData: JSON.stringify(questionsData), // Convertir el array a JSON
                         _token: '{{ csrf_token() }}', // Agregar el token CSRF
                     },
                     success: function(response) {
                         // Log o alerta para verificar que se ha enviado correctamente
-                        console.log('Solicitud Ajax exitosa:', response);
-                        // Resto del código
+                        //console.log('Solicitud Ajax exitosa:', response);
+                        var ruta = "{{ route('voyager.tests.index') }}";
+                        window.location.href = ruta;
                     },
                     error: function(error) {
                         // Log o alerta para manejar el error
@@ -78,6 +102,7 @@
                 }
             });
         </script>
+
 
         <style>
             /* Ocultar las flechas de aumento y disminución en el campo de entrada numérica */

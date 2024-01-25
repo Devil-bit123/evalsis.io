@@ -158,33 +158,27 @@ class evaluationController extends Controller
         return View::make('evaluation.score', compact('response', 'questionsAndAnswers'));
     }
 
-    public function qualify(Request $request, $id)
+      public function qualify(Request $request, $id)
     {
-        // Log de información para verificar que se está llamando correctamente
-        //dd('Función qualify llamada para ID: ' . $id); --OK
 
-        // Buscar la respuesta en la base de datos
-        $response = Response::find($id);
 
-        // Verificar si la respuesta existe
-        if (!$response) {
-            // Log de información para verificar si la respuesta no existe
-            //dd('La respuesta no existe para ID: ' . $id);
-            return response()->json(['error' => 'La respuesta no existe.'], 404);
-        }
+        // Obtener el JSON que contiene la información de las preguntas, respuestas y correcciones
+        $jsonEvaluationData = $request->input('questionsData');
 
-        // Actualizar el puntaje de la respuesta
+        // Decodificar el JSON a un array asociativo
+        $evaluationData = json_decode($jsonEvaluationData, true);
+        $response = response::find($id);
         $response->update([
-            'score' => $request->input('score'),
-            'qualify_status' => 'qualified',
+            'json'=>$evaluationData,
+            'score'=>$request->input('score'),
+            'qualify_status'=>'qualified'
         ]);
 
-        // Log de información para verificar que se ha actualizado correctamente
-        //dd('Puntaje actualizado correctamente para ID: ' . $id);
-
-        // Devolver una respuesta JSON indicando éxito
-        return response()->json(['success' => true]);
+        // Puedes retornar una respuesta, por ejemplo, un mensaje JSON
+        return response()->json(['message' => 'Calificación exitosa']);
     }
+
+
 
     public function qualified($id){
 

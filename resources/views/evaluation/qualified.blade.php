@@ -18,25 +18,24 @@
                                 <p class="card-text">{{ $qa['pregunta'] }}</p>
                                 <h6 class="card-subtitle mb-2 text-muted">Respuesta:</h6>
                                 <p class="card-text">{{ $qa['respuesta'] }}</p>
+                                <p class="card-text">{{ $qa['correccion'] }}</p>
                             </div>
                         </div>
                     @endforeach
 
                     <div class="mb-3">
                         <label for="formGroupExampleInput" class="form-label">Calificación</label>
-                        <input class="form-control" type="text" placeholder="{{ $response->score }}" aria-label="Disabled input example" disabled>
-                      </div>
+                        <input class="form-control" type="text" placeholder="{{ $response->score }}"
+                            aria-label="Disabled input example" disabled>
+                    </div>
 
-                      <button type="button" class="btn btn-warning" id="calificarBtn" onclick="irARuta()">Volver</button>
+                    <button type="button" class="btn btn-warning" id="calificarBtn" onclick="irARuta()">Volver</button>
                 </div>
             </div>
         </div>
         <script>
             function irARuta() {
-                // Utiliza la función route para obtener la URL de la ruta
                 var ruta = "{{ route('voyager.tests.index') }}";
-
-                // Redirige a la URL de la ruta
                 window.location.href = ruta;
             }
         </script>
