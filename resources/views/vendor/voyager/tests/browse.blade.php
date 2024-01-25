@@ -68,6 +68,8 @@
                 $user = Auth::user();
                 $student = $user->student;
 
+                $fechaActual = Carbon\Carbon::now();
+
                 // Obtener todos los tests asociados con los cursos del estudiante
                 $tests = collect();
 
@@ -75,9 +77,16 @@
                     $tests = $tests->merge($course->tests);
                 }
 
-                $testsWithoutResponse = \App\Models\test::whereDoesntHave('response', function ($query) use ($user) {
+                $testsWithoutResponse = \App\Models\test::whereDoesntHave('responses', function ($query) use ($user) {
                     $query->where('id_student', $user->id);
-                })->get();
+                })
+                ->where('date','=', $fechaActual)
+                ->get();
+
+                $testsWithResponse = \App\Models\test::whereHas('responses', function ($query) use ($user) {
+                    $query->where('id_student', $user->id);
+                })
+                ->get();
 
                 //dd($testsWithoutResponse);
 
@@ -98,6 +107,26 @@
                                 <p class="card-text">{{ $test->date }}</p>
                                 <a href="{{ route('evaluation.test', ['id' => $test->id]) }}" class="btn btn-danger">Tomar
                                     prueba</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h4><strong>Exámenes calificados</strong></h4>
+                </div>
+            </div>
+            <div class="row">
+                @foreach ($testsWithResponse as $test)
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $test->course->name }}</h5>
+                                <p class="card-text">Fecha de test: {{ $test->date }}</p>
+                                <a href="{{ route('evaluation.qualified', ['id' => $test->id]) }}" class="btn btn-warning">Ver califición</a>
                             </div>
                         </div>
                     </div>

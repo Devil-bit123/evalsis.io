@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Course;
-use App\Models\response;
 use App\Models\test;
+use App\Models\response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class evaluationController extends Controller
 {
@@ -136,5 +137,66 @@ class evaluationController extends Controller
         $response->save();
 
     }
+
+    public function scores($id){
+        $test = test::find($id);
+        $responses = $test->responses;
+        //foreach ($responses as $response) {
+        //$student = $response->student->user->name;
+        //dd($student);
+        //}
+        return view('evaluation.scores', compact('responses','test'));
+    }
+
+    public function score($id)
+    {
+        $response = Response::find($id);
+
+        // Decodificar el JSON en el campo 'json' de la respuesta
+        $questionsAndAnswers = json_decode($response->json, true);
+
+        return View::make('evaluation.score', compact('response', 'questionsAndAnswers'));
+    }
+
+    public function qualify(Request $request, $id)
+    {
+        // Log de información para verificar que se está llamando correctamente
+        //dd('Función qualify llamada para ID: ' . $id); --OK
+
+        // Buscar la respuesta en la base de datos
+        $response = Response::find($id);
+
+        // Verificar si la respuesta existe
+        if (!$response) {
+            // Log de información para verificar si la respuesta no existe
+            //dd('La respuesta no existe para ID: ' . $id);
+            return response()->json(['error' => 'La respuesta no existe.'], 404);
+        }
+
+        // Actualizar el puntaje de la respuesta
+        $response->update([
+            'score' => $request->input('score'),
+            'qualify_status' => 'qualified',
+        ]);
+
+        // Log de información para verificar que se ha actualizado correctamente
+        //dd('Puntaje actualizado correctamente para ID: ' . $id);
+
+        // Devolver una respuesta JSON indicando éxito
+        return response()->json(['success' => true]);
+    }
+
+    public function qualified($id){
+
+        $user = Auth::user();
+        $response = response::where('id_test', '=', $id)
+            ->where('id_student', '=', $user->student->idStudent)
+            ->first();
+        $questionsAndAnswers = json_decode($response->json, true);
+
+        //return view('evaluation.qualified');
+        return View::make('evaluation.qualified', compact('response', 'questionsAndAnswers'));
+    }
+
 
 }
