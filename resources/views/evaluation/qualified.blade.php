@@ -18,6 +18,7 @@
                                 <p class="card-text">{{ $qa['pregunta'] }}</p>
                                 <h6 class="card-subtitle mb-2 text-muted">Respuesta:</h6>
                                 <p class="card-text">{{ $qa['respuesta'] }}</p>
+                                <h6 class="card-subtitle mb-2 text-muted">Corrección:</h6>
                                 <p class="card-text">{{ $qa['correccion'] }}</p>
                             </div>
                         </div>

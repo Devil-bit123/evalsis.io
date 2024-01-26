@@ -92,12 +92,7 @@
 
             @endphp
 
-            <div class="card">
-                <div class="card-body">
-                    <p>Hola <strong>{{ $user->name }},</strong> tienes <strong>{{ $testsWithoutResponse->count() }}</strong>
-                        Tests pendientes</p>
-                </div>
-            </div>
+
             <div class="row">
                 @foreach ($testsWithoutResponse as $test)
                     <div class="col-md-4 mb-4">

@@ -16,6 +16,23 @@
                             @php
                                 // Consulta la tabla "companies" para obtener la información
                                 $companyInfo = \App\Company::select('info')->first();
+
+                                $allTests = \App\Models\Test::all();
+
+                                $tests = [];
+
+                                foreach ($allTests as $test) {
+                                    $startDateTime = date('Y-m-d', strtotime($test->date)) . ' 08:00:00';
+                                    $endDateTime = date('Y-m-d', strtotime($test->date)) . ' 23:59:00';
+                                    $tests[] = [
+                                        'title' => $test->course->name, // a property!
+                                        'start' => $startDateTime,
+                                        'end' => $endDateTime,
+                                    ];
+                                }
+
+                                //dd($tests);
+
                             @endphp
 
                             @if (!$companyInfo)
@@ -47,6 +64,9 @@
                                     <p>Dirección: {{ $infoArray['direccion'] }}</p>
                                     <p>Razón Social: {{ $infoArray['razon_social'] }}</p>
                                 @endif
+
+                                <h4>Los proximos examenes a realizar</h4>
+                                <div id='calendar'></div>
                             @endif
                             <!--Hasta aqui el rol Admin -->
                         @elseif ($user->role && $user->role->name == 'docente')
@@ -60,6 +80,23 @@
                                 {{-- Decodificar el campo info --}}
                                 @php
                                     $teacherInfo = json_decode($user->teacher->info, true);
+
+                                    $testsWithoutResponse = \App\Models\test::whereDoesntHave('responses', function ($query) use ($user) {
+                                        $query->where('id_student', $user->id);
+                                    })->get();
+
+                                    $tests = [];
+
+                                    foreach ($testsWithoutResponse as $test) {
+                                        $startDateTime = date('Y-m-d', strtotime($test->date)) . ' 08:00:00';
+                                        $endtDateTime = date('Y-m-d', strtotime($test->date)) . ' 23:59:00';
+                                        $tests[] = [
+                                            'title' => $test->course->name, // a property!
+                                            'start' => $startDateTime,
+                                            'end' => $endtDateTime,
+                                        ];
+                                    }
+
                                 @endphp
 
                                 {{-- Verificar si la decodificación fue exitosa --}}
@@ -80,6 +117,9 @@
                                         @endforeach
 
                                     </ul>
+
+                                    <h4>Tus proximos examenes</h4>
+                                    <div id='calendar'></div>
                                 @else
                                     <p>Error al decodificar la información del docente</p>
                                 @endif
@@ -118,6 +158,23 @@
                                 {{-- Decodificar el campo info --}}
                                 @php
                                     $studentInfo = json_decode($user->student->info, true);
+
+                                    $testsWithoutResponse = \App\Models\test::whereDoesntHave('responses', function ($query) use ($user) {
+                                        $query->where('id_student', $user->id);
+                                    })->get();
+
+                                    $tests = [];
+
+                                    foreach ($testsWithoutResponse as $test) {
+                                        $startDateTime = date('Y-m-d', strtotime($test->date)) . ' 08:00:00';
+                                        $endtDateTime = date('Y-m-d', strtotime($test->date)) . ' 23:59:00';
+                                        $tests[] = [
+                                            'title' => $test->course->name, // a property!
+                                            'start' => $startDateTime,
+                                            'end' => $endtDateTime,
+                                        ];
+                                    }
+
                                 @endphp
 
                                 {{-- Verificar si la decodificación fue exitosa --}}
@@ -159,10 +216,13 @@
                                         </div>
                                     </div>
                                 </div>
+
                             @endif
+                            <h4>Tus proximos examenes</h4>
+                            <div id='calendar'></div>
                             <!--Hasta aqui el rol alumno-->
                         @else
-                        <!--Validacion para usuarios sin rol-->
+                            <!--Validacion para usuarios sin rol-->
                             <div class="container">
                                 <div class="row justify-content-center">
                                     <div class="col-md-6">
@@ -191,7 +251,23 @@
 
 @section('javascript')
 
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                const calendarEl = document.getElementById('calendar');
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridWeek',
+                    events: @json($tests)
+                });
+                calendar.render();
+            } catch (error) {
+                console.error('Error al inicializar el calendario:', error);
+            }
+        });
+
+
+
         document.addEventListener("DOMContentLoaded", function() {
             // Obtén la referencia al enlace "Skip"
             var skipLink = document.querySelector('.btn-secondary');
