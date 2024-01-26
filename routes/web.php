@@ -60,11 +60,13 @@ Route::group(['prefix' => 'admin'], function () {
     Route::any('/evaluations/qualify/{id}', [App\Http\Controllers\evaluationController::class, 'qualify'])->name('evaluation.qualify');
     Route::any('/evaluations/qualified/{id}', [App\Http\Controllers\evaluationController::class, 'qualified'])->name('evaluation.qualified');
 
+    //Calendar
+    Route::get('/events',[App\Http\Controllers\calendarController::class, 'index']);
 
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\calendarController::class, 'index'])->name('calendar.index');
 
 

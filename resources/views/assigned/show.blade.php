@@ -71,13 +71,21 @@
 
                                 @if ($course->planifications)
                                     @foreach ($course->planifications as $planification)
-                                        <div style="display: inline-block; vertical-align: middle; margin-bottom: 10px;">
-                                            <p style="display: inline-block; margin-right: 10px; vertical-align: middle;">
-                                                {{ $planification->name }}</p>
-                                            <a href="#" class="btn btn-primary btn-detalles"
-                                                data-name="{{ $planification->name }}" data-file="{{ $planification->file }}"
-                                                style="display: inline-block; vertical-align: middle;">Detalles</a>
+
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <div style="display: inline-block; vertical-align: middle; margin-bottom: 10px;">
+                                                <p style="display: inline-block; margin-right: 10px; vertical-align: middle;">
+                                                    {{ $planification->name }}</p>
+                                                <a href="#" class="btn btn-warning btn-detalles"
+                                                    data-name="{{ $planification->name }}" data-file="{{ $planification->file }}"
+                                                    style="display: inline-block; vertical-align: middle;">Detalles</a>
+                                            </div>
+
                                         </div>
+                                      </div>
+
                                     @endforeach
                                 @else
                                     <h3>Aun no se ha agregado planificación a este curso</h3>
@@ -122,13 +130,21 @@
 
                                 @if ($course->planifications)
                                     @foreach ($course->planifications as $planification)
-                                        <div style="display: inline-block; vertical-align: middle; margin-bottom: 10px;">
-                                            <p style="display: inline-block; margin-right: 10px; vertical-align: middle;">
-                                                {{ $planification->name }}</p>
-                                            <a href="#" class="btn btn-primary btn-detalles"
-                                                data-name="{{ $planification->name }}" data-file="{{ $planification->file }}"
-                                                style="display: inline-block; vertical-align: middle;">Detalles</a>
+
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <div style="display: inline-block; vertical-align: middle; margin-bottom: 10px;">
+                                                <p style="display: inline-block; margin-right: 10px; vertical-align: middle;">
+                                                    {{ $planification->name }}</p>
+                                                <a href="#" class="btn btn-warning btn-detalles"
+                                                    data-name="{{ $planification->name }}" data-description="{{ $planification->description }}" data-file="{{ $planification->file }}"
+                                                    style="display: inline-block; vertical-align: middle;">Detalles</a>
+                                            </div>
+
                                         </div>
+                                      </div>
+
                                     @endforeach
                                 @else
                                     <h3>Aun no se ha agregado planificación a este curso</h3>
@@ -146,14 +162,14 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Detalles de la Planificación</h5>
+                        <h5 class="modal-title"> </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <!-- Contenido del modal, puedes personalizarlo según tus necesidades -->
-                        <p>Aquí puedes agregar más detalles sobre la planificación seleccionada.</p>
+                        <p> </p>
                     </div>
 
                 </div>
@@ -170,6 +186,7 @@
             jQuery('.btn-detalles').on('click', function() {
                 // Recupera los datos de la planificación seleccionada
                 var planificationName = jQuery(this).data('name');
+                var planificationDesc = jQuery(this).data('description');
                 var planificationFile = jQuery(this).data('file');
 
                 // Muestra la información en el modal
@@ -178,8 +195,8 @@
 
                 // Agrega la información del archivo al modal
                 if (planificationFile) {
-                    jQuery('#detallesModal .modal-body').append('<p>Archivo: <a href="' +
-                        planificationFile + '" target="_blank">' + planificationFile + '</a></p>');
+                    jQuery('#detallesModal .modal-body').append('<p>Descripción:' + planificationDesc + '</a><br><p>Archivo: <a href="' +
+                        planificationFile + '" target="_blank">' + planificationFile + '</a>');
                 }
 
                 // Muestra el modal correspondiente
