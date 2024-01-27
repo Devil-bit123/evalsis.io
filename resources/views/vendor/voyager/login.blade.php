@@ -3,7 +3,8 @@
 @section('content')
     <div class="login-container">
 
-        <p>{{ __('voyager::login.signin_below') }}</p>
+
+        <p>Hey! Inicia sesion</p>
 
         <form action="{{ route('voyager.login') }}" method="POST">
             {{ csrf_field() }}
