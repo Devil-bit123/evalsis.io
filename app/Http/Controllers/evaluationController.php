@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Models\test;
 use App\Models\response;
+use App\Events\TestCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -66,6 +67,8 @@ class evaluationController extends Controller
         ]);
 
         $test->save();
+
+        event(new TestCreated($test));
 
         return redirect()->route('voyager.tests.index');
     }

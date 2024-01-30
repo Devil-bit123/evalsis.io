@@ -9,6 +9,11 @@
                 <div class="card-body">
                     <?php $user = auth()->user(); ?>
 
+                    @php
+                         $tests = [];
+                    @endphp
+
+
                     @if ($user)
 
                         @if ($user->role && $user->role->name == 'admin')
@@ -163,7 +168,7 @@
                                         $query->where('id_student', $user->id);
                                     })->get();
 
-                                    $tests = [];
+
 
                                     foreach ($testsWithoutResponse as $test) {
                                         $startDateTime = date('Y-m-d', strtotime($test->date)) . ' 08:00:00';
@@ -206,7 +211,7 @@
                                                 <div class="card-body">
                                                     <h5 class="card-title">Hey! {{ $user->name }}</h5>
                                                     <h6 class="card-subtitle mb-2 text-body-secondary">No tenemos
-                                                        información tu información</h6>
+                                                        tu información</h6>
                                                     <p class="card-text">Si deseas agregar tu información,
                                                         selecciona <strong>Agregar</strong>.</p>
                                                     <a href="/admin/students/create" class="btn btn-primary">Agregar</a>
