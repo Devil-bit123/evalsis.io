@@ -80,7 +80,7 @@
                 $testsWithoutResponse = \App\Models\test::whereDoesntHave('responses', function ($query) use ($user) {
                     $query->where('id_student', $user->id);
                 })
-                ->where('date','=', $fechaActual)
+                //->where('date','=', $fechaActual)
                 ->get();
 
                 $testsWithResponse = \App\Models\test::whereHas('responses', function ($query) use ($user) {
